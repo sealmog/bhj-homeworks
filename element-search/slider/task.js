@@ -1,70 +1,44 @@
 
-const Item = document.querySelectorAll('.slider__item');
-const Dot = document.querySelectorAll('.slider__dot');
-let index = 0
+Array.from(document.getElementsByClassName('slider')).forEach((slider) => {
+    const items = Array.from(slider.getElementsByClassName('slider__item'));
+    const dots = Array.from(slider.getElementsByClassName('slider__dot'));
 
-document.querySelector('.slider__arrow_next').onclick = (event) => {
-    if (index < Item.length - 1) {
-        Item.item(index).classList.remove('slider__item_active')
-        Item.item(index + 1).classList.add('slider__item_active')
+    let activeSlide = items.findIndex((slide) => slide.classList.contains('slider__item_active'));
+    const prevArrow = slider.getElementsByClassName('slider__arrow_prev')[0];
+    const nextArrow = slider.getElementsByClassName('slider__arrow_next')[0];
 
-        Dot.item(index).classList.remove('slider__dot_active')
-        Dot.item(index + 1).classList.add('slider__dot_active')
+    prevArrow.onclick = () => changePrev();
+    nextArrow.onclick = () => changeNext();
 
-        dt(index)
-
-    } else {
-
-        Item.item(index).classList.remove('slider__item_active')
-        Item.item(0).classList.add('slider__item_active')
-
-        Dot.item(index).classList.remove('slider__dot_active')
-        Dot.item(0).classList.add('slider__dot_active')
-
-        dt(index)
-
-        index = -1
-    }
-    index++
-}
-
-document.querySelector('.slider__arrow_prev').onclick = (event) => {
-    if (index > 0) {
-        Item.item(index).classList.remove('slider__item_active')
-        Item.item(index - 1).classList.add('slider__item_active')
-
-        Dot.item(index).classList.remove('slider__dot_active')
-        Dot.item(index - 1).classList.add('slider__dot_active')
-
-        dt(index)
-
-    } else {
-        Item.item(index).classList.remove('slider__item_active')
-        Item.item(Item.length - 1).classList.add('slider__item_active')
-
-        Dot.item(index).classList.remove('slider__dot_active')
-        Dot.item(Item.length - 1).classList.add('slider__dot_active')
-
-        dt(index)
-
-        index = Item.length
-    }
-    index--
-}
-
-function dt(index) {
-    Dot[index].onclick = function () {
-        let current = document.getElementsByClassName("slider__item_active")[0]
-        current.className = "slider__item";
-        const Dots = Array.from(Dot);
-        const Items = Array.from(Item);
-        let d = Dots.indexOf(this);
-        Items[d].className = "slider__item slider__item_active";
-        this.className = "slider__dot slider__dot_active";
-        Dots.forEach(element => {
-            if (element != this) {
-                element.className = "slider__dot";
-            }
+    dots.forEach((dot,index) => {
+            dot.onclick = () => changeSlide(index)
         });
+
+    dots[activeSlide].classList.add('slider__dot_active');
+
+    function changeSlide(newID) {
+        if (newID !== activeSlide) {
+            items[newID].classList.add('slider__item_active');
+            items[activeSlide].classList.remove('slider__item_active');
+            dots[newID].classList.add('slider__dot_active');
+            dots[activeSlide].classList.remove('slider__dot_active');
+            activeSlide = newID;
+        }
     }
-}
+
+    function changePrev() {
+        let newID = activeSlide - 1;
+        if (newID < 0) {
+            newID = items.length - 1;
+        }
+        changeSlide(newID);
+    }
+
+    function changeNext() {
+        let newID = activeSlide + 1;
+        if (newID >= items.length) {
+            newID = 0;
+        }
+        changeSlide(newID);
+    }
+});
