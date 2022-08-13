@@ -14,8 +14,7 @@ fontSizes.forEach((item) => {
         item.classList.add('font-size_active');
 
         for (let book of books) {
-            book.classList.remove('book_fs-big');
-            book.classList.remove('book_fs-small');
+            book.classList.remove('book_fs-big', 'book_fs-small');
 
             if (item.dataset.size === "small") {
                 book.classList.add('book_fs-small');
@@ -35,9 +34,7 @@ textColors.forEach((item) => {
 
         for (let book of books) {
 
-            book.classList.remove('book_color-gray');
-            book.classList.remove('book_color-whitesmoke');
-            book.classList.remove('book_color-black');
+            book.classList.remove('book_color-gray', 'book_color-whitesmoke', 'book_color-black');
 
             if (item.dataset.textColor === "black") {
                 book.classList.add('book_color-black');
@@ -58,9 +55,7 @@ backgroundColors.forEach((item) => {
         item.classList.add('color_active');
 
         for (let book of books) {
-            book.classList.remove('bg_color_black');
-            book.classList.remove('bg_color_gray');
-            book.classList.remove('bg_color_white');
+            book.classList.remove('bg_color_black', 'bg_color_gray', 'bg_color_white');
 
             if (item.dataset.bgColor === "black") {
                 book.classList.add('bg_color_black');

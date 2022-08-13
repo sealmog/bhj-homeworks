@@ -1,7 +1,7 @@
 const cases = Array.from(document.getElementsByClassName("rotator__case"));
-const activeCase = document.querySelector(".rotator__case_active");
+let i = 1;
 
-const timer = setInterval(() => {
+function rotator() {
     const activeCase = document.querySelector(".rotator__case_active");
     activeCase.classList.remove("rotator__case_active");
     if (activeCase.nextElementSibling) {
@@ -9,12 +9,12 @@ const timer = setInterval(() => {
     } else {
         cases[0].classList.add("rotator__case_active");
     }
-    changeStyle();
-
-}, parseInt(activeCase.dataset.speed));
-
-function changeStyle(){
     for (let i = 0; i < cases.length; i++) {
         cases[i].style.color = cases[i].dataset.color;
     }
 }
+
+setTimeout(function run() {
+    rotator(i);
+    setTimeout(run, 1000);
+}, 1000);
